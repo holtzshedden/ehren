@@ -145,6 +145,7 @@ export default function EhrenkoelschPage() {
 
       {/* =====================================================
           EHRENSACHE / FÜRS VEEDEL.
+          FOOTER LEBT INNERHALB DER LETZTEN SECTION
       ===================================================== */}
       <section
         className="ehrensache-section campaign-section"
@@ -177,57 +178,44 @@ export default function EhrenkoelschPage() {
 
               <p>
                 Wir wollen dort stattfinden, wo das Veedel stattfindet:
-                am Kiosk, auf der Straße und mit den Leuten, die es zu
-                dem machen, was es ist.
+                am Kiosk, auf der Straße und mit den Leuten, die es zu dem
+                machen, was es ist.
               </p>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* =====================================================
-          FOOTER
-      ===================================================== */}
-      <footer className="ehren-footer">
-        <div className="footer-inner">
-          <button
-            className="footer-brand"
-            onClick={scrollTop}
-            aria-label="Nach oben"
-          >
-            <span>EHREN</span>
-            <span>FELD</span>
-          </button>
-
-          <nav
-            className="footer-links"
-            aria-label="Footer Navigation"
-          >
-            <a
-              href="#"
-              aria-label="Instagram"
+        {/* ===================================================
+            TRANSPARENTER FOOTER AUF DEM LETZTEN BILD
+        =================================================== */}
+        <footer className="ehren-footer">
+          <div className="footer-inner">
+            <nav
+              className="footer-links"
+              aria-label="Footer Navigation"
             >
-              Instagram
-            </a>
+              <a
+                href="#"
+                aria-label="Instagram"
+              >
+                Instagram
+              </a>
 
-            <a href="/impressum">
-              Impressum
-            </a>
+              <a href="/impressum">
+                Impressum
+              </a>
 
-            <a href="/datenschutz">
-              Datenschutz
-            </a>
-          </nav>
-        </div>
+              <a href="/datenschutz">
+                Datenschutz
+              </a>
+            </nav>
 
-        <div className="footer-bottom">
-          <span>EHRENFELD. FÜR KÖLN.</span>
-
-          <span>
-            © 2026 Ehrendrinks Inc.
-          </span>
-        </div>
-      </footer>
+            <div className="footer-copyright">
+              © 2026 Ehrendrinks UG
+            </div>
+          </div>
+        </footer>
+      </section>
     </main>
   );
 }

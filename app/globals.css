@@ -5,6 +5,7 @@
 
   --content-width: 1360px;
   --header-height: 96px;
+  --footer-height: 76px;
 }
 
 /* =========================================================
@@ -17,7 +18,6 @@
 
 html {
   scroll-behavior: smooth;
-
   background: var(--blue);
 }
 
@@ -57,7 +57,6 @@ button {
 
 a {
   color: inherit;
-
   text-decoration: none;
 }
 
@@ -189,7 +188,6 @@ img {
 
 .main-nav button:hover {
   opacity: 0.72;
-
   transform: translateY(-2px);
 }
 
@@ -245,11 +243,6 @@ img {
   background: var(--blue);
 }
 
-/*
-   Bilder sind minimal größer als die Section,
-   damit der Hover-Zoom keine freien Kanten erzeugt.
-*/
-
 .campaign-image {
   position: absolute;
 
@@ -269,11 +262,6 @@ img {
 
   will-change: transform;
 }
-
-/*
-   NUR das Bild bewegt sich.
-   Sämtliche Typografie bleibt fest.
-*/
 
 @media (hover: hover) and (pointer: fine) {
   .campaign-section:hover .campaign-image {
@@ -536,11 +524,10 @@ img {
 
 /* =========================================================
    EHRENSACHE / FÜRS VEEDEL.
-   NEU: FULL-BLEED
 ========================================================= */
 
 .ehrensache-section {
-  height: 700px;
+  height: 776px;
 
   margin: 0;
   padding: 0;
@@ -553,13 +540,6 @@ img {
 .ehrensache-image {
   object-position: center center;
 }
-
-/*
-   Leichte Abdunklung links.
-
-   Dadurch können Headline und Copy auf dem Foto leben,
-   ohne dass daraus eine sichtbare Textbox wird.
-*/
 
 .ehrensache-shade {
   position: absolute;
@@ -590,21 +570,10 @@ img {
     calc(100% - 80px)
   );
 
-  height: 100%;
+  height: calc(100% - var(--footer-height));
 
   margin: 0 auto;
 }
-
-/*
-   Text links.
-
-   Damit entsteht nach:
-   Hero links
-   Pils rechts
-   Buddies links
-
-   wieder eine klare linke Abschlussposition.
-*/
 
 .ehrensache-content {
   position: absolute;
@@ -668,16 +637,29 @@ img {
 }
 
 /* =========================================================
-   FOOTER
+   TRANSPARENTER FOOTER
 ========================================================= */
 
 .ehren-footer {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  z-index: 10;
+
   width: 100%;
+  height: var(--footer-height);
 
-  padding: 65px 0 28px;
+  background: rgba(7, 53, 99, 0.12);
 
-  background: var(--blue);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+
   color: var(--cream);
+
+  border: 0;
+  box-shadow: none;
 }
 
 .footer-inner {
@@ -686,64 +668,36 @@ img {
     calc(100% - 80px)
   );
 
+  height: 100%;
+
   margin: 0 auto;
 
   display: flex;
-  justify-content: space-between;
   align-items: center;
-}
-
-.footer-brand {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  margin: 0;
-  padding: 0;
-
-  border: 0;
-
-  background: transparent;
-
-  color: var(--cream);
-
-  font-size: 26px;
-  font-weight: 900;
-
-  line-height: 0.84;
-  letter-spacing: -0.8px;
-
-  text-align: left;
-
-  cursor: pointer;
-}
-
-.footer-brand span {
-  display: block;
-}
-
-.footer-brand span + span {
-  margin-top: 6px;
+  justify-content: space-between;
 }
 
 .footer-links {
   display: flex;
   align-items: center;
 
-  gap: 40px;
+  gap: 36px;
 }
 
-.footer-links a {
-  position: relative;
-
+.footer-links a,
+.footer-copyright {
   color: var(--cream);
 
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
 
   line-height: 1;
 
-  opacity: 0.78;
+  letter-spacing: -0.1px;
+}
+
+.footer-links a {
+  opacity: 0.82;
 
   transition:
     opacity 180ms ease,
@@ -756,30 +710,8 @@ img {
   transform: translateY(-2px);
 }
 
-.footer-bottom {
-  width: min(
-    var(--content-width),
-    calc(100% - 80px)
-  );
-
-  margin: 55px auto 0;
-
-  padding-top: 24px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  border-top:
-    1px solid rgba(243, 234, 219, 0.16);
-
-  color:
-    rgba(243, 234, 219, 0.55);
-
-  font-size: 12px;
-  font-weight: 700;
-
-  letter-spacing: 0.5px;
+.footer-copyright {
+  opacity: 0.68;
 }
 
 /* =========================================================
@@ -789,6 +721,7 @@ img {
 @media (max-width: 1000px) {
   :root {
     --header-height: 86px;
+    --footer-height: 72px;
   }
 
   .ehren-header {
@@ -811,8 +744,6 @@ img {
     font-size: 15px;
   }
 
-  /* HERO */
-
   .hero {
     height: 650px;
   }
@@ -828,8 +759,6 @@ img {
       120px
     );
   }
-
-  /* BIER */
 
   .beer-section {
     height: 650px;
@@ -855,8 +784,6 @@ img {
     font-size: 23px;
   }
 
-  /* BUDDIES */
-
   .buddies-section {
     height: 650px;
   }
@@ -877,10 +804,8 @@ img {
     );
   }
 
-  /* EHRENSACHE */
-
   .ehrensache-section {
-    height: 650px;
+    height: 722px;
   }
 
   .ehrensache-inner {
@@ -907,10 +832,7 @@ img {
     font-size: 20px;
   }
 
-  /* FOOTER */
-
-  .footer-inner,
-  .footer-bottom {
+  .footer-inner {
     width: calc(100% - 48px);
   }
 }
@@ -922,6 +844,7 @@ img {
 @media (max-width: 700px) {
   :root {
     --header-height: 76px;
+    --footer-height: 104px;
   }
 
   .ehren-header {
@@ -955,8 +878,6 @@ img {
     font-size: 13px;
   }
 
-  /* HERO */
-
   .hero {
     height: 600px;
   }
@@ -984,8 +905,6 @@ img {
 
     letter-spacing: -3px;
   }
-
-  /* BIER */
 
   .beer-section {
     height: 650px;
@@ -1034,8 +953,6 @@ img {
   .beer-content p {
     font-size: 22px;
   }
-
-  /* BUDDIES */
 
   .buddies-section {
     height: 650px;
@@ -1097,10 +1014,8 @@ img {
     text-align: left;
   }
 
-  /* EHRENSACHE */
-
   .ehrensache-section {
-    height: 700px;
+    height: 804px;
   }
 
   .ehrensache-image {
@@ -1125,7 +1040,7 @@ img {
     top: auto;
     right: auto;
     left: 0;
-    bottom: 50px;
+    bottom: 42px;
 
     width: 100%;
     max-width: 560px;
@@ -1169,46 +1084,33 @@ img {
     line-height: 1.25;
   }
 
-  /* FOOTER */
-
   .ehren-footer {
-    padding: 48px 0 25px;
-  }
+    height: var(--footer-height);
 
-  .footer-inner,
-  .footer-bottom {
-    width: calc(100% - 32px);
+    background: rgba(7, 53, 99, 0.18);
   }
 
   .footer-inner {
+    width: calc(100% - 32px);
+
     align-items: flex-start;
+    justify-content: center;
     flex-direction: column;
 
-    gap: 38px;
-  }
-
-  .footer-brand {
-    font-size: 21px;
+    gap: 17px;
   }
 
   .footer-links {
-    flex-wrap: wrap;
+    width: 100%;
 
-    gap: 20px 28px;
+    gap: 20px;
   }
 
   .footer-links a {
-    font-size: 13px;
+    font-size: 12px;
   }
 
-  .footer-bottom {
-    margin-top: 45px;
-
-    align-items: flex-start;
-    flex-direction: column;
-
-    gap: 10px;
-
+  .footer-copyright {
     font-size: 11px;
   }
 }
