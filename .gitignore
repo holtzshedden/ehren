@@ -1,0 +1,9 @@
+node_modules/
+.next/
+out/
+@eaDir/
+**/@eaDir/
+.DS_Store
+
+Thumbs.db
+**/Thumbs.db

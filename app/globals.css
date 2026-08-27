@@ -1,0 +1,1234 @@
+:root {
+  --blue: #073563;
+  --cream: #f3eadb;
+  --gold: #f7b500;
+
+  --content-width: 1360px;
+  --header-height: 96px;
+}
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+
+  background: var(--blue);
+}
+
+body {
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  background: var(--blue);
+  color: var(--cream);
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  overflow-x: hidden;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  background: transparent;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+
+  text-decoration: none;
+}
+
+img {
+  display: block;
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.ehren-page {
+  width: 100%;
+  min-height: 100vh;
+
+  overflow-x: hidden;
+
+  background: var(--blue);
+  color: var(--cream);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.ehren-header {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  z-index: 1000;
+
+  width: 100%;
+  height: var(--header-height);
+
+  background: rgba(7, 53, 99, 0.12);
+
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+
+  border: 0;
+  box-shadow: none;
+}
+
+.header-inner {
+  width: min(
+    var(--content-width),
+    calc(100% - 80px)
+  );
+
+  height: 100%;
+
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+  flex-shrink: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  background: transparent !important;
+  border: 0 !important;
+  outline: 0;
+
+  color: var(--cream);
+
+  font-size: 24px;
+  font-weight: 900;
+
+  line-height: 0.84;
+  letter-spacing: -0.8px;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.brand span {
+  display: block;
+}
+
+.brand span + span {
+  margin-top: 6px;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.main-nav {
+  display: flex;
+  align-items: center;
+
+  gap: 54px;
+}
+
+.main-nav button {
+  padding: 10px 0;
+
+  background: transparent !important;
+  border: 0 !important;
+
+  color: var(--cream);
+
+  font-size: 17px;
+  font-weight: 800;
+
+  line-height: 1;
+  letter-spacing: -0.2px;
+
+  cursor: pointer;
+
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.main-nav button:hover {
+  opacity: 0.72;
+
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   SHARED TYPOGRAPHY
+========================================================= */
+
+.eyebrow {
+  display: block;
+
+  margin: 0 0 18px;
+
+  color: var(--gold);
+
+  font-size: 15px;
+  font-weight: 900;
+
+  line-height: 1.2;
+  letter-spacing: 2px;
+
+  background: transparent;
+}
+
+.hero h1,
+.beer-content h2,
+.buddies-content h2,
+.ehrensache-content h2 {
+  margin: 0;
+
+  color: var(--cream);
+
+  font-weight: 900;
+
+  letter-spacing: -5px;
+
+  background: transparent;
+}
+
+/* =========================================================
+   CAMPAIGN SECTIONS
+========================================================= */
+
+.campaign-section {
+  position: relative;
+
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+
+  background: var(--blue);
+}
+
+/*
+   Bilder sind minimal größer als die Section,
+   damit der Hover-Zoom keine freien Kanten erzeugt.
+*/
+
+.campaign-image {
+  position: absolute;
+
+  inset: -1.5%;
+
+  z-index: 0;
+
+  width: 103%;
+  height: 103%;
+
+  object-fit: cover;
+
+  transform: scale(1);
+
+  transition:
+    transform 1100ms cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  will-change: transform;
+}
+
+/*
+   NUR das Bild bewegt sich.
+   Sämtliche Typografie bleibt fest.
+*/
+
+@media (hover: hover) and (pointer: fine) {
+  .campaign-section:hover .campaign-image {
+    transform: scale(1.018);
+  }
+}
+
+/* =========================================================
+   HERO / KOMMT AN.
+========================================================= */
+
+.hero {
+  height: 700px;
+
+  background: #000;
+}
+
+.hero-image {
+  object-position: center center;
+}
+
+.hero-shade {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.hero-content {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(
+    var(--content-width),
+    calc(100% - 80px)
+  );
+
+  height: 100%;
+
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding-top: 70px;
+}
+
+.hero-content .eyebrow {
+  margin-bottom: 18px;
+}
+
+.hero h1 {
+  font-size: clamp(
+    90px,
+    9vw,
+    150px
+  );
+
+  line-height: 0.72;
+}
+
+/* =========================================================
+   BIER / PILS.
+========================================================= */
+
+.beer-section {
+  height: 700px;
+
+  background: var(--blue);
+
+  scroll-margin-top: var(--header-height);
+}
+
+.beer-image {
+  object-position: center center;
+}
+
+.beer-shade {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(7, 53, 99, 0) 0%,
+      rgba(7, 53, 99, 0.01) 35%,
+      rgba(7, 53, 99, 0.10) 62%,
+      rgba(7, 53, 99, 0.22) 100%
+    );
+}
+
+.beer-inner {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(
+    var(--content-width),
+    calc(100% - 80px)
+  );
+
+  height: 100%;
+
+  margin: 0 auto;
+}
+
+.beer-content {
+  position: absolute;
+
+  top: 50%;
+  right: 0;
+
+  width: 44%;
+  max-width: 600px;
+
+  transform: translateY(-50%);
+}
+
+.beer-content .eyebrow {
+  margin-bottom: 22px;
+}
+
+.beer-content h2 {
+  margin: 0 0 28px;
+
+  font-size: clamp(
+    100px,
+    9vw,
+    160px
+  );
+
+  line-height: 0.78;
+}
+
+.beer-meta {
+  margin-bottom: 42px;
+
+  color: var(--gold);
+
+  font-size: 21px;
+  font-weight: 900;
+
+  line-height: 1;
+}
+
+.beer-content p {
+  max-width: 600px;
+
+  margin: 0;
+
+  color: var(--cream);
+
+  font-size: 28px;
+  font-weight: 800;
+
+  line-height: 1.15;
+  letter-spacing: -0.8px;
+}
+
+/* =========================================================
+   BUDDIES / WO GIBT'S DAS?
+========================================================= */
+
+.buddies-section {
+  height: 700px;
+
+  background: var(--blue);
+
+  scroll-margin-top: var(--header-height);
+}
+
+.buddies-image {
+  object-position: center center;
+}
+
+.buddies-shade {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(7, 53, 99, 0.18) 0%,
+      rgba(7, 53, 99, 0.07) 35%,
+      rgba(7, 53, 99, 0) 68%
+    );
+}
+
+.buddies-inner {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(
+    var(--content-width),
+    calc(100% - 80px)
+  );
+
+  height: 100%;
+
+  margin: 0 auto;
+}
+
+.buddies-content {
+  position: absolute;
+
+  top: 50%;
+  left: 0;
+
+  width: 58%;
+  max-width: 800px;
+
+  transform: translateY(-50%);
+
+  text-align: left;
+}
+
+.buddies-content .eyebrow {
+  margin: 0 0 22px;
+
+  text-align: left;
+}
+
+.buddies-content h2 {
+  margin: 0;
+
+  color: var(--cream);
+
+  font-size: clamp(
+    88px,
+    7.5vw,
+    140px
+  );
+
+  font-weight: 900;
+
+  line-height: 0.74;
+  letter-spacing: -6px;
+
+  text-align: left;
+}
+
+/* =========================================================
+   EHRENSACHE / FÜRS VEEDEL.
+   NEU: FULL-BLEED
+========================================================= */
+
+.ehrensache-section {
+  height: 700px;
+
+  margin: 0;
+  padding: 0;
+
+  background: var(--blue);
+
+  scroll-margin-top: var(--header-height);
+}
+
+.ehrensache-image {
+  object-position: center center;
+}
+
+/*
+   Leichte Abdunklung links.
+
+   Dadurch können Headline und Copy auf dem Foto leben,
+   ohne dass daraus eine sichtbare Textbox wird.
+*/
+
+.ehrensache-shade {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(7, 53, 99, 0.26) 0%,
+      rgba(7, 53, 99, 0.14) 32%,
+      rgba(7, 53, 99, 0.04) 58%,
+      rgba(7, 53, 99, 0) 78%
+    );
+}
+
+.ehrensache-inner {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(
+    var(--content-width),
+    calc(100% - 80px)
+  );
+
+  height: 100%;
+
+  margin: 0 auto;
+}
+
+/*
+   Text links.
+
+   Damit entsteht nach:
+   Hero links
+   Pils rechts
+   Buddies links
+
+   wieder eine klare linke Abschlussposition.
+*/
+
+.ehrensache-content {
+  position: absolute;
+
+  top: 50%;
+  left: 0;
+
+  width: 52%;
+  max-width: 700px;
+
+  transform: translateY(-50%);
+
+  text-align: left;
+}
+
+.ehrensache-content .eyebrow {
+  margin: 0 0 22px;
+
+  text-align: left;
+}
+
+.ehrensache-content h2 {
+  margin: 0;
+
+  color: var(--cream);
+
+  font-size: clamp(
+    88px,
+    7.5vw,
+    140px
+  );
+
+  font-weight: 900;
+
+  line-height: 0.74;
+  letter-spacing: -6px;
+
+  text-align: left;
+}
+
+.ehrensache-copy {
+  max-width: 600px;
+
+  margin-top: 42px;
+}
+
+.ehrensache-copy p {
+  margin: 0 0 20px;
+
+  color: var(--cream);
+
+  font-size: 22px;
+  font-weight: 700;
+
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+}
+
+.ehrensache-copy p:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.ehren-footer {
+  width: 100%;
+
+  padding: 65px 0 28px;
+
+  background: var(--blue);
+  color: var(--cream);
+}
+
+.footer-inner {
+  width: min(
+    var(--content-width),
+    calc(100% - 80px)
+  );
+
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  margin: 0;
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--cream);
+
+  font-size: 26px;
+  font-weight: 900;
+
+  line-height: 0.84;
+  letter-spacing: -0.8px;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.footer-brand span {
+  display: block;
+}
+
+.footer-brand span + span {
+  margin-top: 6px;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+
+  gap: 40px;
+}
+
+.footer-links a {
+  position: relative;
+
+  color: var(--cream);
+
+  font-size: 14px;
+  font-weight: 800;
+
+  line-height: 1;
+
+  opacity: 0.78;
+
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.footer-links a:hover {
+  opacity: 1;
+
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  width: min(
+    var(--content-width),
+    calc(100% - 80px)
+  );
+
+  margin: 55px auto 0;
+
+  padding-top: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-top:
+    1px solid rgba(243, 234, 219, 0.16);
+
+  color:
+    rgba(243, 234, 219, 0.55);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+  :root {
+    --header-height: 86px;
+  }
+
+  .ehren-header {
+    height: var(--header-height);
+  }
+
+  .header-inner {
+    width: calc(100% - 48px);
+  }
+
+  .brand {
+    font-size: 21px;
+  }
+
+  .main-nav {
+    gap: 30px;
+  }
+
+  .main-nav button {
+    font-size: 15px;
+  }
+
+  /* HERO */
+
+  .hero {
+    height: 650px;
+  }
+
+  .hero-content {
+    width: calc(100% - 48px);
+  }
+
+  .hero h1 {
+    font-size: clamp(
+      75px,
+      12vw,
+      120px
+    );
+  }
+
+  /* BIER */
+
+  .beer-section {
+    height: 650px;
+  }
+
+  .beer-inner {
+    width: calc(100% - 48px);
+  }
+
+  .beer-content {
+    width: 48%;
+  }
+
+  .beer-content h2 {
+    font-size: clamp(
+      85px,
+      11vw,
+      125px
+    );
+  }
+
+  .beer-content p {
+    font-size: 23px;
+  }
+
+  /* BUDDIES */
+
+  .buddies-section {
+    height: 650px;
+  }
+
+  .buddies-inner {
+    width: calc(100% - 48px);
+  }
+
+  .buddies-content {
+    width: 62%;
+  }
+
+  .buddies-content h2 {
+    font-size: clamp(
+      75px,
+      10vw,
+      115px
+    );
+  }
+
+  /* EHRENSACHE */
+
+  .ehrensache-section {
+    height: 650px;
+  }
+
+  .ehrensache-inner {
+    width: calc(100% - 48px);
+  }
+
+  .ehrensache-content {
+    width: 58%;
+  }
+
+  .ehrensache-content h2 {
+    font-size: clamp(
+      75px,
+      10vw,
+      115px
+    );
+  }
+
+  .ehrensache-copy {
+    margin-top: 34px;
+  }
+
+  .ehrensache-copy p {
+    font-size: 20px;
+  }
+
+  /* FOOTER */
+
+  .footer-inner,
+  .footer-bottom {
+    width: calc(100% - 48px);
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+  :root {
+    --header-height: 76px;
+  }
+
+  .ehren-header {
+    height: var(--header-height);
+
+    background: rgba(7, 53, 99, 0.18);
+
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+  }
+
+  .header-inner {
+    width: calc(100% - 32px);
+  }
+
+  .brand {
+    font-size: 18px;
+
+    line-height: 0.84;
+  }
+
+  .brand span + span {
+    margin-top: 5px;
+  }
+
+  .main-nav {
+    gap: 18px;
+  }
+
+  .main-nav button {
+    font-size: 13px;
+  }
+
+  /* HERO */
+
+  .hero {
+    height: 600px;
+  }
+
+  .hero-content {
+    width: calc(100% - 32px);
+
+    padding-top: 50px;
+  }
+
+  .hero .eyebrow {
+    font-size: 11px;
+
+    letter-spacing: 1.4px;
+  }
+
+  .hero h1 {
+    font-size: clamp(
+      62px,
+      19vw,
+      95px
+    );
+
+    line-height: 0.76;
+
+    letter-spacing: -3px;
+  }
+
+  /* BIER */
+
+  .beer-section {
+    height: 650px;
+  }
+
+  .beer-image {
+    object-position: center center;
+  }
+
+  .beer-shade {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(7, 53, 99, 0.02) 0%,
+        rgba(7, 53, 99, 0.08) 45%,
+        rgba(7, 53, 99, 0.62) 100%
+      );
+  }
+
+  .beer-inner {
+    width: calc(100% - 32px);
+  }
+
+  .beer-content {
+    top: auto;
+    right: auto;
+    left: 0;
+    bottom: 55px;
+
+    width: 100%;
+    max-width: 520px;
+
+    transform: none;
+  }
+
+  .beer-content h2 {
+    font-size: clamp(
+      75px,
+      23vw,
+      115px
+    );
+
+    letter-spacing: -4px;
+  }
+
+  .beer-content p {
+    font-size: 22px;
+  }
+
+  /* BUDDIES */
+
+  .buddies-section {
+    height: 650px;
+  }
+
+  .buddies-image {
+    object-position: center center;
+  }
+
+  .buddies-shade {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(7, 53, 99, 0.05) 0%,
+        rgba(7, 53, 99, 0.08) 42%,
+        rgba(7, 53, 99, 0.58) 100%
+      );
+  }
+
+  .buddies-inner {
+    width: calc(100% - 32px);
+  }
+
+  .buddies-content {
+    top: auto;
+    right: auto;
+    left: 0;
+    bottom: 55px;
+
+    width: 100%;
+    max-width: 560px;
+
+    transform: none;
+
+    text-align: left;
+  }
+
+  .buddies-content .eyebrow {
+    margin-bottom: 18px;
+
+    font-size: 11px;
+
+    letter-spacing: 1.4px;
+
+    text-align: left;
+  }
+
+  .buddies-content h2 {
+    font-size: clamp(
+      62px,
+      17vw,
+      95px
+    );
+
+    line-height: 0.76;
+
+    letter-spacing: -4px;
+
+    text-align: left;
+  }
+
+  /* EHRENSACHE */
+
+  .ehrensache-section {
+    height: 700px;
+  }
+
+  .ehrensache-image {
+    object-position: center center;
+  }
+
+  .ehrensache-shade {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(7, 53, 99, 0.04) 0%,
+        rgba(7, 53, 99, 0.10) 35%,
+        rgba(7, 53, 99, 0.68) 100%
+      );
+  }
+
+  .ehrensache-inner {
+    width: calc(100% - 32px);
+  }
+
+  .ehrensache-content {
+    top: auto;
+    right: auto;
+    left: 0;
+    bottom: 50px;
+
+    width: 100%;
+    max-width: 560px;
+
+    transform: none;
+
+    text-align: left;
+  }
+
+  .ehrensache-content .eyebrow {
+    margin-bottom: 18px;
+
+    font-size: 11px;
+
+    letter-spacing: 1.4px;
+  }
+
+  .ehrensache-content h2 {
+    font-size: clamp(
+      62px,
+      17vw,
+      95px
+    );
+
+    line-height: 0.76;
+
+    letter-spacing: -4px;
+  }
+
+  .ehrensache-copy {
+    max-width: 500px;
+
+    margin-top: 30px;
+  }
+
+  .ehrensache-copy p {
+    margin-bottom: 16px;
+
+    font-size: 18px;
+
+    line-height: 1.25;
+  }
+
+  /* FOOTER */
+
+  .ehren-footer {
+    padding: 48px 0 25px;
+  }
+
+  .footer-inner,
+  .footer-bottom {
+    width: calc(100% - 32px);
+  }
+
+  .footer-inner {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 38px;
+  }
+
+  .footer-brand {
+    font-size: 21px;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+
+    gap: 20px 28px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+  }
+
+  .footer-bottom {
+    margin-top: 45px;
+
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 10px;
+
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .campaign-image,
+  .main-nav button,
+  .footer-links a {
+    transition: none;
+  }
+
+  .campaign-section:hover .campaign-image {
+    transform: scale(1);
+  }
+}
