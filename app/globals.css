@@ -213,8 +213,8 @@ img {
 
 .hero h1,
 .beer-content h2,
-.buddies-content h2,
-.ehrensache-content h2 {
+.kaufen-content h2,
+.manifest-content h2 {
   margin: 0;
 
   color: var(--cream);
@@ -435,10 +435,10 @@ img {
 }
 
 /* =========================================================
-   BUDDIES / WO GIBT'S DAS?
+   KAUFEN / WO GIBT'S DAS?
 ========================================================= */
 
-.buddies-section {
+.kaufen-section {
   height: 700px;
 
   background: var(--blue);
@@ -446,11 +446,11 @@ img {
   scroll-margin-top: var(--header-height);
 }
 
-.buddies-image {
+.kaufen-image {
   object-position: center center;
 }
 
-.buddies-shade {
+.kaufen-shade {
   position: absolute;
 
   inset: 0;
@@ -468,7 +468,7 @@ img {
     );
 }
 
-.buddies-inner {
+.kaufen-inner {
   position: relative;
 
   z-index: 2;
@@ -483,7 +483,7 @@ img {
   margin: 0 auto;
 }
 
-.buddies-content {
+.kaufen-content {
   position: absolute;
 
   top: 50%;
@@ -497,13 +497,13 @@ img {
   text-align: left;
 }
 
-.buddies-content .eyebrow {
+.kaufen-content .eyebrow {
   margin: 0 0 22px;
 
   text-align: left;
 }
 
-.buddies-content h2 {
+.kaufen-content h2 {
   margin: 0;
 
   color: var(--cream);
@@ -523,10 +523,10 @@ img {
 }
 
 /* =========================================================
-   EHRENSACHE / FÜRS VEEDEL.
+   BIER. KEIN MANIFEST.
 ========================================================= */
 
-.ehrensache-section {
+.manifest-section {
   height: 776px;
 
   margin: 0;
@@ -537,11 +537,11 @@ img {
   scroll-margin-top: var(--header-height);
 }
 
-.ehrensache-image {
+.manifest-image {
   object-position: center center;
 }
 
-.ehrensache-shade {
+.manifest-shade {
   position: absolute;
 
   inset: 0;
@@ -560,7 +560,7 @@ img {
     );
 }
 
-.ehrensache-inner {
+.manifest-inner {
   position: relative;
 
   z-index: 2;
@@ -575,7 +575,7 @@ img {
   margin: 0 auto;
 }
 
-.ehrensache-content {
+.manifest-content {
   position: absolute;
 
   top: 50%;
@@ -589,13 +589,13 @@ img {
   text-align: left;
 }
 
-.ehrensache-content .eyebrow {
+.manifest-content .eyebrow {
   margin: 0 0 22px;
 
   text-align: left;
 }
 
-.ehrensache-content h2 {
+.manifest-content h2 {
   margin: 0;
 
   color: var(--cream);
@@ -614,13 +614,13 @@ img {
   text-align: left;
 }
 
-.ehrensache-copy {
+.manifest-copy {
   max-width: 600px;
 
   margin-top: 42px;
 }
 
-.ehrensache-copy p {
+.manifest-copy p {
   margin: 0 0 20px;
 
   color: var(--cream);
@@ -632,7 +632,7 @@ img {
   letter-spacing: -0.4px;
 }
 
-.ehrensache-copy p:last-child {
+.manifest-copy p:last-child {
   margin-bottom: 0;
 }
 
@@ -784,19 +784,19 @@ img {
     font-size: 23px;
   }
 
-  .buddies-section {
+  .kaufen-section {
     height: 650px;
   }
 
-  .buddies-inner {
+  .kaufen-inner {
     width: calc(100% - 48px);
   }
 
-  .buddies-content {
+  .kaufen-content {
     width: 62%;
   }
 
-  .buddies-content h2 {
+  .kaufen-content h2 {
     font-size: clamp(
       75px,
       10vw,
@@ -804,19 +804,19 @@ img {
     );
   }
 
-  .ehrensache-section {
+  .manifest-section {
     height: 722px;
   }
 
-  .ehrensache-inner {
+  .manifest-inner {
     width: calc(100% - 48px);
   }
 
-  .ehrensache-content {
+  .manifest-content {
     width: 58%;
   }
 
-  .ehrensache-content h2 {
+  .manifest-content h2 {
     font-size: clamp(
       75px,
       10vw,
@@ -824,11 +824,11 @@ img {
     );
   }
 
-  .ehrensache-copy {
+  .manifest-copy {
     margin-top: 34px;
   }
 
-  .ehrensache-copy p {
+  .manifest-copy p {
     font-size: 20px;
   }
 
@@ -954,15 +954,15 @@ img {
     font-size: 22px;
   }
 
-  .buddies-section {
+  .kaufen-section {
     height: 650px;
   }
 
-  .buddies-image {
+  .kaufen-image {
     object-position: center center;
   }
 
-  .buddies-shade {
+  .kaufen-shade {
     background:
       linear-gradient(
         to bottom,
@@ -972,11 +972,11 @@ img {
       );
   }
 
-  .buddies-inner {
+  .kaufen-inner {
     width: calc(100% - 32px);
   }
 
-  .buddies-content {
+  .kaufen-content {
     top: auto;
     right: auto;
     left: 0;
@@ -990,7 +990,7 @@ img {
     text-align: left;
   }
 
-  .buddies-content .eyebrow {
+  .kaufen-content .eyebrow {
     margin-bottom: 18px;
 
     font-size: 11px;
@@ -1000,7 +1000,7 @@ img {
     text-align: left;
   }
 
-  .buddies-content h2 {
+  .kaufen-content h2 {
     font-size: clamp(
       62px,
       17vw,
@@ -1014,15 +1014,15 @@ img {
     text-align: left;
   }
 
-  .ehrensache-section {
+  .manifest-section {
     height: 804px;
   }
 
-  .ehrensache-image {
+  .manifest-image {
     object-position: center center;
   }
 
-  .ehrensache-shade {
+  .manifest-shade {
     background:
       linear-gradient(
         to bottom,
@@ -1032,11 +1032,11 @@ img {
       );
   }
 
-  .ehrensache-inner {
+  .manifest-inner {
     width: calc(100% - 32px);
   }
 
-  .ehrensache-content {
+  .manifest-content {
     top: auto;
     right: auto;
     left: 0;
@@ -1050,7 +1050,7 @@ img {
     text-align: left;
   }
 
-  .ehrensache-content .eyebrow {
+  .manifest-content .eyebrow {
     margin-bottom: 18px;
 
     font-size: 11px;
@@ -1058,7 +1058,7 @@ img {
     letter-spacing: 1.4px;
   }
 
-  .ehrensache-content h2 {
+  .manifest-content h2 {
     font-size: clamp(
       62px,
       17vw,
@@ -1070,13 +1070,13 @@ img {
     letter-spacing: -4px;
   }
 
-  .ehrensache-copy {
+  .manifest-copy {
     max-width: 500px;
 
     margin-top: 30px;
   }
 
-  .ehrensache-copy p {
+  .manifest-copy p {
     margin-bottom: 16px;
 
     font-size: 18px;
@@ -1132,5 +1132,192 @@ img {
 
   .campaign-section:hover .campaign-image {
     transform: scale(1);
+  }
+}
+
+/* =========================================================
+   REWORK 2026-09 — KAUFEN / MANIFEST / INSTAGRAM
+========================================================= */
+
+.instagram-link,
+.footer-instagram {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cream);
+}
+
+.instagram-link {
+  width: 28px;
+  height: 28px;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.instagram-link:hover {
+  opacity: 0.72;
+  transform: translateY(-2px);
+}
+
+.instagram-icon {
+  width: 23px;
+  height: 23px;
+  display: block;
+}
+
+.kaufen-content {
+  width: min(58%, 800px);
+}
+
+.kiosk-list {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.kiosk-name {
+  color: var(--cream);
+  font-size: clamp(19px, 1.55vw, 26px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.5px;
+}
+
+.manifest-content {
+  width: 62%;
+  max-width: 820px;
+}
+
+.manifest-content h2 {
+  font-size: clamp(76px, 6.7vw, 126px);
+  line-height: 0.76;
+}
+
+.footer-instagram {
+  width: 22px;
+  height: 22px;
+  opacity: 0.82;
+}
+
+.footer-instagram .instagram-icon {
+  width: 19px;
+  height: 19px;
+}
+
+@media (max-width: 1000px) {
+  .kiosk-list { margin-top: 30px; }
+  .manifest-content { width: 66%; }
+  .manifest-content h2 { font-size: clamp(68px, 9vw, 105px); }
+}
+
+@media (max-width: 700px) {
+  .main-nav { gap: 17px; }
+  .instagram-link { width: 24px; height: 24px; }
+  .instagram-link .instagram-icon { width: 20px; height: 20px; }
+
+  .kaufen-content {
+    width: 100%;
+    bottom: 40px;
+  }
+
+  .kaufen-content h2 {
+    font-size: clamp(58px, 16vw, 88px);
+  }
+
+  .kiosk-list {
+    margin-top: 25px;
+    gap: 5px;
+  }
+
+  .kiosk-name {
+    font-size: 18px;
+  }
+
+  .manifest-content {
+    width: 100%;
+    bottom: 40px;
+  }
+
+  .manifest-content h2 {
+    font-size: clamp(58px, 16vw, 88px);
+  }
+}
+
+
+/* =========================================================
+   REWORK 2026-09-18 — CLICKABLE KIOSKS / FINAL SECTION
+========================================================= */
+
+.kaufen-section {
+  min-height: 700px;
+  height: max(700px, 100vh);
+}
+
+.kaufen-content {
+  padding-bottom: var(--footer-height);
+}
+
+.kiosk-list {
+  gap: 13px;
+}
+
+.kiosk-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--cream);
+  text-decoration: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.kiosk-entry:hover {
+  opacity: 0.78;
+  transform: translateX(4px);
+}
+
+.kiosk-address {
+  margin-top: 2px;
+  color: var(--cream);
+  font-size: clamp(11px, 0.78vw, 13px);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: 0;
+  opacity: 0.72;
+}
+
+.external-arrow {
+  white-space: nowrap;
+  opacity: 0.9;
+}
+
+@media (max-width: 1000px) {
+  .kaufen-section {
+    min-height: 760px;
+    height: max(760px, 100vh);
+  }
+}
+
+@media (max-width: 700px) {
+  .kaufen-section {
+    min-height: 780px;
+    height: max(780px, 100svh);
+  }
+
+  .kaufen-content {
+    padding-bottom: calc(var(--footer-height) + 12px);
+  }
+
+  .kiosk-list {
+    gap: 11px;
+  }
+
+  .kiosk-address {
+    max-width: 92vw;
+    font-size: 11px;
+  }
+
+  .kiosk-entry:hover {
+    transform: none;
   }
 }
