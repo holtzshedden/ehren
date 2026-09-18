@@ -81,10 +81,10 @@ export default function EhrenPage() {
         <div className="beer-shade" />
         <div className="beer-inner">
           <div className="beer-content">
-            <div className="eyebrow">DAS BIER</div>
+            <div className="eyebrow">LASS PLOPPEN</div>
             <h2>PILS.</h2>
-            <div className="beer-meta">0,2 L&nbsp;&nbsp;·&nbsp;&nbsp;X,X % VOL.</div>
-            <p>Klein. Kalt. Direkt aus dem Veedel.<br />Mehr muss man eigentlich nicht sagen.</p>
+            <div className="beer-meta">0,3 L&nbsp;&nbsp;·&nbsp;&nbsp;X,X % VOL.</div>
+            <p>Bier. Kein Manifest.<br />Hier brauch ich noch nen duften Satz.</p>
           </div>
         </div>
       </section>
