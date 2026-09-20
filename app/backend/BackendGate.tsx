@@ -12,10 +12,13 @@ export default function BackendGate({
 }>) {
   const { isLoaded, isSignedIn, user } = useUser();
 
-  const hasBackendAccess = user?.publicMetadata?.ehrenmann === true;
+  const hasBackendAccess =
+    user?.publicMetadata?.ehrenmann === true;
 
   React.useEffect(() => {
-    if (!isLoaded || !isSignedIn || hasBackendAccess) return;
+    if (!isLoaded || !isSignedIn || hasBackendAccess) {
+      return;
+    }
 
     window.location.replace(UNAUTHORIZED_REDIRECT);
   }, [isLoaded, isSignedIn, hasBackendAccess]);
@@ -23,7 +26,9 @@ export default function BackendGate({
   if (!isLoaded) {
     return (
       <main className="backend-auth-screen">
-        <div className="backend-auth-loading">EHRENFELD</div>
+        <div className="backend-auth-loading">
+          EHRENFELD
+        </div>
       </main>
     );
   }
@@ -41,17 +46,6 @@ export default function BackendGate({
           routing="hash"
           fallbackRedirectUrl="/backend"
           signUpUrl={undefined}
-          appearance={{
-            variables: {
-              colorPrimary: "#073563",
-              colorBackground: "#f3eadb",
-              colorText: "#073563",
-              colorTextSecondary: "rgba(7, 53, 99, 0.62)",
-              colorInputBackground: "#f3eadb",
-              colorInputText: "#073563",
-              borderRadius: "3px",
-            },
-          }}
         />
       </main>
     );
@@ -60,7 +54,9 @@ export default function BackendGate({
   if (!hasBackendAccess) {
     return (
       <main className="backend-auth-screen">
-        <div className="backend-auth-loading">Zugriff wird geprüft …</div>
+        <div className="backend-auth-loading">
+          Zugriff wird geprüft …
+        </div>
       </main>
     );
   }
