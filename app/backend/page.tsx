@@ -1,6 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+import { useClerk, useUser } from "@clerk/nextjs";
+import AddressBookSection from "./AddressBookSection";
+import WarehouseSection from "./WarehouseSection";
+import ProductsSection from "./ProductsSection";
+import FinanceSection from "./FinanceSection";
 
 type ModalType =
   | "incoming"
@@ -431,22 +436,49 @@ function TrendCard({
 }
 
 export default function BackendPage() {
+  const { user } = useUser();
+  const clerk = useClerk();
+
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("dashboard");
+  const [addressBookDirty, setAddressBookDirty] = useState(false);
   const [modal, setModal] = useState<ModalType>(null);
 
   const today = getToday();
+
+  const displayName =
+    user?.firstName ||
+    user?.fullName ||
+    user?.username ||
+    user?.primaryEmailAddress?.emailAddress ||
+    "User";
+
+  const email = user?.primaryEmailAddress?.emailAddress || "";
+  const initial = displayName.trim().charAt(0).toUpperCase() || "?";
+  const avatarUrl = user?.imageUrl || null;
 
   const sectionTitles: Record<string, string> = {
     dashboard: "Dashboard",
     warehouse: "Lager",
     finance: "Finanzen",
-    buddies: "Buddies",
+    products: "Produkte",
     addressbook: "Adressbuch",
-    users: "User",
-    settings: "Einstellungen",
   };
 
   const sectionTitle = sectionTitles[activeSection];
+
+  const changeSection = (section: string) => {
+    if (
+      activeSection === "addressbook" &&
+      addressBookDirty &&
+      section !== "addressbook" &&
+      !window.confirm("Achtung: Deine Änderungen wurden noch nicht gespeichert. Änderungen verwerfen?")
+    ) {
+      return;
+    }
+    setAddressBookDirty(false);
+    setActiveSection(section);
+  };
 
   return (
     <main className="backend-shell">
@@ -460,62 +492,110 @@ export default function BackendPage() {
         <nav className="backend-nav" aria-label="Backend Navigation">
           <button
             className={activeSection === "dashboard" ? "active" : ""}
-            onClick={() => setActiveSection("dashboard")}
+            onClick={() => changeSection("dashboard")}
           >
             Dashboard
           </button>
 
           <button
             className={activeSection === "warehouse" ? "active" : ""}
-            onClick={() => setActiveSection("warehouse")}
+            onClick={() => changeSection("warehouse")}
           >
             Lager
           </button>
 
           <button
             className={activeSection === "finance" ? "active" : ""}
-            onClick={() => setActiveSection("finance")}
+            onClick={() => changeSection("finance")}
           >
             Finanzen
           </button>
 
           <button
-            className={activeSection === "buddies" ? "active" : ""}
-            onClick={() => setActiveSection("buddies")}
+            className={activeSection === "products" ? "active" : ""}
+            onClick={() => changeSection("products")}
           >
-            Buddies
+            Produkte
           </button>
 
           <button
             className={activeSection === "addressbook" ? "active" : ""}
-            onClick={() => setActiveSection("addressbook")}
+            onClick={() => changeSection("addressbook")}
           >
             Adressbuch
           </button>
 
-          <button
-            className={activeSection === "users" ? "active" : ""}
-            onClick={() => setActiveSection("users")}
+          <a
+            className="backend-nav-external"
+            href="https://drive.google.com/drive/folders/0ALgqRHOmfK_1Uk9PVA"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            User
-          </button>
-
-          <button
-            className={activeSection === "settings" ? "active" : ""}
-            onClick={() => setActiveSection("settings")}
-          >
-            Einstellungen
-          </button>
+            Dateien
+          </a>
         </nav>
 
         <div className="backend-sidebar-footer">
-          <div className="backend-user">
-            <div className="backend-user-avatar">A</div>
+          <div className="backend-account">
+            {userMenuOpen && (
+              <div className="backend-account-menu">
+                <div className="backend-account-menu-profile">
+                  <strong>{displayName}</strong>
+                  <span>{email}</span>
+                </div>
 
-            <div>
-              <strong>Alex</strong>
-              <span>Development</span>
-            </div>
+                <div className="backend-account-status">
+                  <span className="backend-account-status-dot" />
+                  Ehrenmann
+                </div>
+
+                <button
+                  type="button"
+                  className="backend-account-logout"
+                  onClick={async () => {
+                    await clerk.signOut({ redirectUrl: "/backend" });
+                  }}
+                >
+                  <span>Ausloggen</span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            )}
+
+            <button
+              type="button"
+              className="backend-user backend-user-button"
+              onClick={() => setUserMenuOpen((open) => !open)}
+              aria-expanded={userMenuOpen}
+            >
+              <div className="backend-user-avatar">
+                {avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={avatarUrl}
+                    alt={displayName}
+                    width={38}
+                    height={38}
+                  />
+                ) : (
+                  <span>{initial}</span>
+                )}
+              </div>
+
+              <div className="backend-user-copy">
+                <strong>{displayName}</strong>
+                <span>Ehrenmann</span>
+              </div>
+
+              <span
+                className={`backend-user-chevron ${
+                  userMenuOpen ? "open" : ""
+                }`}
+                aria-hidden="true"
+              >
+                ↑
+              </span>
+            </button>
           </div>
         </div>
       </aside>
@@ -527,10 +607,6 @@ export default function BackendPage() {
             <h1>{sectionTitle}</h1>
           </div>
 
-          <div className="backend-status">
-            <span className="backend-status-dot" />
-            Dummy-Daten
-          </div>
         </header>
 
         <div className="backend-content">
@@ -662,331 +738,17 @@ export default function BackendPage() {
             </>
           )}
 
-          {activeSection === "warehouse" && (
-            <>
-              <section className="section-trends section-trends-four">
-                <TrendCard
-                  label="Bierbestand"
-                  value="1.248"
-                  detail="Flaschen · aktueller Bestand"
-                  change="+8,3 % vs. Juli"
-                  data={warehouseTrends.beerStock}
-                />
+          {activeSection === "warehouse" && <WarehouseSection />}
 
-                <TrendCard
-                  label="Warenwert"
-                  value="1.415,52 €"
-                  detail="aktueller Bestand"
-                  change="+6,8 % vs. Juli"
-                  data={warehouseTrends.stockValue}
-                />
+          {activeSection === "products" && <ProductsSection />}
 
-                <TrendCard
-                  label="Wareneingänge"
-                  value="1.000"
-                  detail="Einheiten im August"
-                  change="+455,6 % vs. Juli"
-                  data={warehouseTrends.incoming}
-                />
+          {activeSection === "finance" && <FinanceSection />}
 
-                <TrendCard
-                  label="Ausgänge"
-                  value="168"
-                  detail="Einheiten im August"
-                  change="+18,3 % vs. Juli"
-                  data={warehouseTrends.outgoing}
-                />
-              </section>
-
-              <div className="warehouse-actions">
-                <button
-                  className="backend-primary-action"
-                  onClick={() => setModal("incoming")}
-                >
-                  + Wareneingang
-                </button>
-
-                <button
-                  className="backend-secondary-action"
-                  onClick={() => setModal("outgoing")}
-                >
-                  − Ausbuchung
-                </button>
-
-                <button
-                  className="backend-secondary-action"
-                  onClick={() => setModal("transfer")}
-                >
-                  Transfer
-                </button>
-              </div>
-
-              <section className="backend-section">
-                <div className="backend-section-head">
-                  <div>
-                    <span className="backend-section-kicker">BESTAND</span>
-                    <h2>Aktueller Lagerbestand</h2>
-                  </div>
-
-                  <span className="backend-section-note">
-                    Stand 28.08.2026
-                  </span>
-                </div>
-
-                <div className="backend-table-wrap">
-                  <table className="backend-table">
-                    <thead>
-                      <tr>
-                        <th>Produkt</th>
-                        <th>Kategorie</th>
-                        <th>Bestand</th>
-                        <th>Ø Einstand</th>
-                        <th>Warenwert</th>
-                        <th>Lagerort</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {inventoryRows.map((row) => (
-                        <tr key={row.product}>
-                          <td>
-                            <strong className="backend-product-name">
-                              {row.product}
-                            </strong>
-                          </td>
-
-                          <td>{row.category}</td>
-
-                          <td>
-                            <strong>{row.stock}</strong>{" "}
-                            <span className="backend-muted-inline">
-                              {row.unit}
-                            </span>
-                          </td>
-
-                          <td>{row.unitCost}</td>
-                          <td className="backend-number">{row.value}</td>
-                          <td>{row.location}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-
-              <section className="backend-section">
-                <div className="backend-section-head">
-                  <div>
-                    <span className="backend-section-kicker">HISTORIE</span>
-                    <h2>Bewegungen</h2>
-                  </div>
-
-                  <div className="warehouse-filter-dummy">
-                    <button className="active">Alle</button>
-                    <button>Wareneingang</button>
-                    <button>Ausbuchung</button>
-                    <button>Verkauf</button>
-                    <button>Transfer</button>
-                  </div>
-                </div>
-
-                <div className="backend-table-wrap">
-                  <table className="backend-table">
-                    <thead>
-                      <tr>
-                        <th>Datum</th>
-                        <th>Art</th>
-                        <th>Produkt</th>
-                        <th>Charge</th>
-                        <th>Menge</th>
-                        <th>Kostenstelle</th>
-                        <th>Ziel / Ort</th>
-                        <th>User</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {movementRows.map((row, index) => (
-                        <tr key={`${row.date}-${index}`}>
-                          <td>{row.date}</td>
-                          <td>{row.type}</td>
-                          <td>{row.product}</td>
-                          <td>{row.batch}</td>
-                          <td className="backend-number">{row.amount}</td>
-                          <td>{row.costCenter}</td>
-                          <td>{row.location}</td>
-                          <td>{row.user}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            </>
+          {activeSection === "addressbook" && (
+            <AddressBookSection onDirtyChange={setAddressBookDirty} />
           )}
 
-          {activeSection === "finance" && (
-            <>
-              <section className="section-trends section-trends-four">
-                <TrendCard
-                  label="Einnahmen"
-                  value="316,00 €"
-                  detail="August 2026"
-                  change="+17,9 % vs. Juli"
-                  data={financeTrends.income}
-                />
-
-                <TrendCard
-                  label="Ausgaben"
-                  value="1.356,60 €"
-                  detail="August 2026"
-                  change="+78,5 % vs. Juli"
-                  data={financeTrends.expenses}
-                />
-
-                <TrendCard
-                  label="Saldo"
-                  value="-1.040,60 €"
-                  detail="August 2026"
-                  change="-111,5 % vs. Juli"
-                  data={financeTrends.balance}
-                />
-
-                <TrendCard
-                  label="Liquide Mittel"
-                  value="4.280,00 €"
-                  detail="zuletzt manuell aktualisiert"
-                  change="-1,6 % vs. Juli"
-                  data={financeTrends.cash}
-                />
-              </section>
-
-              <div className="finance-actions">
-                <button
-                  className="backend-primary-action"
-                  onClick={() => setModal("expense")}
-                >
-                  + Ausgabe
-                </button>
-
-                <button
-                  className="backend-secondary-action"
-                  onClick={() => setModal("income")}
-                >
-                  + Einnahme
-                </button>
-
-                <button
-                  className="backend-secondary-action"
-                  onClick={() => setModal("cash")}
-                >
-                  Kontostand aktualisieren
-                </button>
-              </div>
-
-              <section className="backend-section">
-                <div className="backend-section-head">
-                  <div>
-                    <span className="backend-section-kicker">FINANZEN</span>
-                    <h2>Bewegungen</h2>
-                  </div>
-
-                  <div className="warehouse-filter-dummy">
-                    <button className="active">Alle</button>
-                    <button>Einnahmen</button>
-                    <button>Ausgaben</button>
-                  </div>
-                </div>
-
-                <div className="backend-table-wrap">
-                  <table className="backend-table">
-                    <thead>
-                      <tr>
-                        <th>Datum</th>
-                        <th>Art</th>
-                        <th>Beschreibung</th>
-                        <th>Kontakt</th>
-                        <th>Kostenstelle</th>
-                        <th>Quelle</th>
-                        <th>Betrag</th>
-                        <th>User</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {financeRows.map((row, index) => (
-                        <tr key={`${row.date}-${index}`}>
-                          <td>{row.date}</td>
-                          <td>{row.type}</td>
-
-                          <td>
-                            <strong className="backend-product-name">
-                              {row.description}
-                            </strong>
-                          </td>
-
-                          <td>{row.contact}</td>
-                          <td>{row.costCenter}</td>
-                          <td>{row.source}</td>
-                          <td className="backend-number">{row.amount}</td>
-                          <td>{row.user}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-
-              <section className="backend-section">
-                <div className="backend-section-head finance-cost-center-head">
-                  <div>
-                    <span className="backend-section-kicker">
-                      KOSTENSTELLEN
-                    </span>
-                    <h2>Einnahmen vs. Ausgaben</h2>
-                  </div>
-
-                  <div className="finance-period-dummy">
-                    <button>Monat</button>
-                    <button className="active">Jahr</button>
-                    <button>Gesamt</button>
-                  </div>
-                </div>
-
-                <div className="finance-cost-center-grid">
-                  {costCenterSummaries.map((item) => (
-                    <article
-                      key={item.id}
-                      className="finance-cost-center-card"
-                    >
-                      <span className="finance-cost-center-id">
-                        {item.id}
-                      </span>
-
-                      <div className="finance-cost-center-row">
-                        <span>Einnahmen</span>
-                        <strong>{item.income}</strong>
-                      </div>
-
-                      <div className="finance-cost-center-row">
-                        <span>Ausgaben</span>
-                        <strong>{item.expenses}</strong>
-                      </div>
-
-                      <div className="finance-cost-center-divider" />
-
-                      <div className="finance-cost-center-delta">
-                        <span>Delta</span>
-                        <strong>{item.delta}</strong>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              </section>
-            </>
-          )}
-
-          {!["dashboard", "warehouse", "finance"].includes(activeSection) && (
+          {!["dashboard", "warehouse", "products", "finance", "addressbook"].includes(activeSection) && (
             <section className="backend-placeholder">
               <span className="backend-section-kicker">
                 {activeSection.toUpperCase()}

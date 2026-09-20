@@ -1,9 +1,22 @@
-node_modules/
+# Environment / secrets
+.env
+.env.local
+.env.*
+!.env.example
+deploy.env
+
+# Next
 .next/
-out/
+node_modules/
+
+# Cloudflare
+.wrangler/
+.open-next/
+
+# Synology metadata
 @eaDir/
 **/@eaDir/
-.DS_Store
-
 Thumbs.db
-**/Thumbs.db
+
+# Build output
+out/

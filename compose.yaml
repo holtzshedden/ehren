@@ -7,3 +7,5 @@ services:
       - "3001:3000"
     volumes:
       - /volume1/carni/Websites/ehren:/app
+    env_file:
+      - .env.local

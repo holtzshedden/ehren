@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import BackendGate from "./BackendGate";
 import "./backend.css";
 
 export const metadata: Metadata = {
@@ -11,5 +12,5 @@ export default function BackendLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return children;
+  return <BackendGate>{children}</BackendGate>;
 }

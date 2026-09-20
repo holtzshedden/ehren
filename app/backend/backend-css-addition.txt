@@ -1,0 +1,17 @@
+/* Produktpflege V2 */
+.product-batch-checkbox {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 10px !important;
+  cursor: pointer;
+}
+.product-batch-checkbox input {
+  width: 16px !important;
+  height: 16px !important;
+  padding: 0 !important;
+}
+.product-batch-checkbox span {
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
