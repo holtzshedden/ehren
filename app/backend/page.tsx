@@ -6,6 +6,7 @@ import AddressBookSection from "./AddressBookSection";
 import WarehouseSection from "./WarehouseSection";
 import ProductsSection from "./ProductsSection";
 import FinanceSection from "./FinanceSection";
+import CostCentersSection from "./CostCentersSection";
 
 type ModalType =
   | "incoming"
@@ -461,6 +462,7 @@ export default function BackendPage() {
     dashboard: "Dashboard",
     warehouse: "Lager",
     finance: "Finanzen",
+    costcenters: "Kostenstellen",
     products: "Produkte",
     addressbook: "Adressbuch",
   };
@@ -509,6 +511,13 @@ export default function BackendPage() {
             onClick={() => changeSection("finance")}
           >
             Finanzen
+          </button>
+
+          <button
+            className={activeSection === "costcenters" ? "active" : ""}
+            onClick={() => changeSection("costcenters")}
+          >
+            Kostenstellen
           </button>
 
           <button
@@ -744,11 +753,13 @@ export default function BackendPage() {
 
           {activeSection === "finance" && <FinanceSection />}
 
+          {activeSection === "costcenters" && <CostCentersSection />}
+
           {activeSection === "addressbook" && (
             <AddressBookSection onDirtyChange={setAddressBookDirty} />
           )}
 
-          {!["dashboard", "warehouse", "products", "finance", "addressbook"].includes(activeSection) && (
+          {!["dashboard", "warehouse", "products", "finance", "costcenters", "addressbook"].includes(activeSection) && (
             <section className="backend-placeholder">
               <span className="backend-section-kicker">
                 {activeSection.toUpperCase()}
