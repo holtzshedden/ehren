@@ -49,6 +49,10 @@ export async function POST(r: Request) {
       ? Number(form.get("linked_warehouse_movement_id"))
       : null;
 
+    const reserveId = form.get("reserve_id")
+      ? Number(form.get("reserve_id"))
+      : null;
+
     const net = Number(form.get("net_amount"));
     const taxRate = Number(form.get("tax_rate") ?? 19);
 
@@ -225,6 +229,7 @@ export async function POST(r: Request) {
 
         address_book_id,
         cost_center_id,
+        reserve_id,
 
         net_amount,
         tax_amount,
@@ -259,6 +264,7 @@ export async function POST(r: Request) {
 
         ${supplierId},
         ${costCenterId},
+        ${reserveId},
 
         ${net},
         ${tax},
@@ -286,7 +292,7 @@ export async function POST(r: Request) {
         document_number
     `;
 
-    await audit({entityType:"document",entityId:Number(d.id),action:"CREATED",actorUserId:userId,actorName:name,details:{document_number:d.document_number,direction:"INCOMING",external_document_number:externalNumber,gross_amount:gross}});
+    await audit({entityType:"document",entityId:Number(d.id),action:"CREATED",actorUserId:userId,actorName:name,details:{document_number:d.document_number,direction:"INCOMING",external_document_number:externalNumber,gross_amount:gross,reserve_id:reserveId}});
 
     return NextResponse.json({
       ok: true,

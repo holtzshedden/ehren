@@ -103,6 +103,8 @@ export async function GET() {
       d.note,
       d.attachment_name,
       d.credit_note_for_id,
+      d.reserve_id,
+      fr.name reserve_name,
       d.created_by_name,
       d.created_at::text,
       COALESCE(d.recipient_name, ab.name) contact_name,
@@ -110,6 +112,7 @@ export async function GET() {
     FROM commercial_documents d
     LEFT JOIN address_book ab ON ab.id = d.address_book_id
     LEFT JOIN cost_centers cc ON cc.id = d.cost_center_id
+    LEFT JOIN financial_reserves fr ON fr.id = d.reserve_id
     ORDER BY d.document_date DESC, d.id DESC
     LIMIT 200
   `;
@@ -173,15 +176,7 @@ export async function GET() {
     WHERE r.active = true
   `;
 
-  const [cash] = await sql`
-    SELECT
-      amount::float8,
-      account_name,
-      snapshot_date::text
-    FROM finance_cash_snapshots
-    ORDER BY snapshot_date DESC, id DESC
-    LIMIT 1
-  `;
+  const cash = Number(t.capital_in || 0) + Number(t.income || 0) - Number(t.expenses || 0) - Number(t.capital_out || 0);
 
   return NextResponse.json({
     transactions,
@@ -192,9 +187,7 @@ export async function GET() {
     totals: {
       ...t,
       reserved: rr.reserved,
-      cash: cash?.amount ?? null,
-      cash_account: cash?.account_name ?? null,
-      cash_date: cash?.snapshot_date ?? null,
+      cash,
     },
   });
 }
