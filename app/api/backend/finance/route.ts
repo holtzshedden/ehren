@@ -37,6 +37,7 @@ export async function GET() {
   }
 
   await sql`ALTER TABLE commercial_documents ADD COLUMN IF NOT EXISTS credit_note_for_id bigint`;
+  await sql`ALTER TABLE commercial_documents ADD COLUMN IF NOT EXISTS created_at timestamptz NOT NULL DEFAULT NOW()`;
 
   const transactions = await sql`
     SELECT
@@ -102,6 +103,8 @@ export async function GET() {
       d.note,
       d.attachment_name,
       d.credit_note_for_id,
+      d.created_by_name,
+      d.created_at::text,
       COALESCE(d.recipient_name, ab.name) contact_name,
       cc.code cost_center_code
     FROM commercial_documents d

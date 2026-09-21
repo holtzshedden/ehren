@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { sql } from "../../../../../lib/db";
+import { audit } from "../../../../../lib/audit";
 
 const r2 = (n: number) => Math.round(n * 100) / 100;
 
@@ -284,6 +285,8 @@ export async function POST(r: Request) {
         id,
         document_number
     `;
+
+    await audit({entityType:"document",entityId:Number(d.id),action:"CREATED",actorUserId:userId,actorName:name,details:{document_number:d.document_number,direction:"INCOMING",external_document_number:externalNumber,gross_amount:gross}});
 
     return NextResponse.json({
       ok: true,

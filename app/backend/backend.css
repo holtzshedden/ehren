@@ -1673,3 +1673,6 @@
 .warehouse-movements-table th:nth-child(2),
 .warehouse-movements-table td:nth-child(2){width:145px;}
 .warehouse-movement-type{display:block;max-width:135px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* V6: invoice line editor + audit history */
+.invoice-line-editor{display:grid;grid-template-columns:minmax(220px,2fr) 90px 90px 130px 90px auto;gap:8px;align-items:center;margin-bottom:8px}.backend-field-label{display:block;margin-bottom:8px;color:var(--backend-muted);font-size:9px;font-weight:900;letter-spacing:1px;text-transform:uppercase}.audit-list{margin-top:18px;border-top:1px solid var(--backend-line)}.audit-row{display:flex;justify-content:space-between;gap:20px;padding:12px 0;border-bottom:1px solid var(--backend-line);font-size:12px}.audit-row span{color:var(--backend-muted);font-weight:700}@media(max-width:900px){.invoice-line-editor{grid-template-columns:1fr 1fr}.invoice-line-editor input:first-child{grid-column:1/-1}}

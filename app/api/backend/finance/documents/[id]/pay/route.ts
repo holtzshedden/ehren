@@ -1,6 +1,6 @@
 import {NextResponse} from "next/server";
 import {auth,clerkClient} from "@clerk/nextjs/server";
-import {sql} from "../../../../../../../lib/db";
+import {sql} from "../../../../../../../lib/db";import {audit} from "../../../../../../../lib/audit";
 
 export async function POST(r:Request,{params}:{params:Promise<{id:string}>}){
   try{
@@ -36,6 +36,7 @@ export async function POST(r:Request,{params}:{params:Promise<{id:string}>}){
         ${userId},${name},${null}
       )
     `;
+    await audit({entityType:"document",entityId:+id,action:"PAID",actorUserId:userId,actorName:name,details:{payment_date:date,amount:Number(d.gross_amount)}});
     return NextResponse.json({ok:true});
   }catch(e){
     console.error("DOCUMENT_PAY_ERROR",e);

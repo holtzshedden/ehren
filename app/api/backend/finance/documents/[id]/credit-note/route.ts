@@ -1,6 +1,6 @@
 import {NextResponse} from "next/server";
 import {auth,clerkClient} from "@clerk/nextjs/server";
-import {sql} from "../../../../../../../lib/db";
+import {sql} from "../../../../../../../lib/db";import {audit} from "../../../../../../../lib/audit";
 export async function POST(_r:Request,{params}:{params:Promise<{id:string}>}){
  try{
   const {userId}=await auth(); if(!userId)return NextResponse.json({error:"Nicht autorisiert"},{status:401});
@@ -22,6 +22,8 @@ export async function POST(_r:Request,{params}:{params:Promise<{id:string}>}){
   const[cn]=await sql`INSERT INTO commercial_documents(document_number,document_type,direction,status,document_date,service_date,address_book_id,warehouse_movement_id,cost_center_id,net_amount,tax_amount,gross_amount,note,recipient_name,recipient_street,recipient_postal_code,recipient_city,recipient_country,issuer_name,issuer_street,issuer_postal_code,issuer_city,issuer_country,issuer_tax_number,issuer_vat_id,issuer_iban,issuer_bic,issuer_bank_name,payment_terms_days,created_by_clerk_user_id,created_by_name,credit_note_for_id) VALUES(${nr},'INVOICE','OUTGOING','SETTLED',${today},${today},${d.address_book_id},${returnMovementId},${d.cost_center_id},${-Number(d.net_amount)},${-Number(d.tax_amount)},${-Number(d.gross_amount)},${`Gutschrift zu ${d.document_number}`},${d.recipient_name},${d.recipient_street},${d.recipient_postal_code},${d.recipient_city},${d.recipient_country},${d.issuer_name},${d.issuer_street},${d.issuer_postal_code},${d.issuer_city},${d.issuer_country},${d.issuer_tax_number},${d.issuer_vat_id},${d.issuer_iban},${d.issuer_bic},${d.issuer_bank_name},${d.payment_terms_days},${userId},${name},${+id}) RETURNING id`;
   for(const x of items)await sql`INSERT INTO commercial_document_items(document_id,product_id,description,quantity,unit,unit_price,tax_rate,line_total,net_total,tax_total,gross_total) VALUES(${cn.id},${x.product_id},${x.description},${-Number(x.quantity)},${x.unit},${x.unit_price},${x.tax_rate},${-Number(x.line_total)},${-Number(x.net_total)},${-Number(x.tax_total)},${-Number(x.gross_total)})`;
   await sql`UPDATE commercial_documents SET status='CANCELLED' WHERE id=${+id}`;
+  await audit({entityType:"document",entityId:+id,action:"CANCELLED_BY_CREDIT_NOTE",actorUserId:userId,actorName:name,details:{credit_note_id:Number(cn.id),credit_note_number:nr}});
+  await audit({entityType:"document",entityId:Number(cn.id),action:"CREDIT_NOTE_CREATED",actorUserId:userId,actorName:name,details:{original_document_id:+id,original_document_number:d.document_number}});
   return NextResponse.json({ok:true,id:cn.id,documentNumber:nr});
  }catch(e){console.error("CREDIT_NOTE_ERROR",e);return NextResponse.json({error:e instanceof Error?e.message:"Gutschrift konnte nicht erstellt werden."},{status:500})}
 }
