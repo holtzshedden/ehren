@@ -2,6 +2,12 @@ import { NextResponse } from "next/server";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { sql } from "../../../../lib/db";
 
+
+async function ensureFinanceConstraints() {
+  await sql`ALTER TABLE financial_transactions DROP CONSTRAINT IF EXISTS financial_transactions_transaction_type_check`;
+  await sql`ALTER TABLE financial_transactions ADD CONSTRAINT financial_transactions_transaction_type_check CHECK (transaction_type IN ('INCOME','EXPENSE','CAPITAL_IN','CAPITAL_OUT'))`;
+}
+
 async function me() {
   const { userId } = await auth();
 
@@ -200,6 +206,8 @@ export async function POST(r: Request) {
         { status: 403 }
       );
     }
+
+    await ensureFinanceConstraints();
 
     const b = await r.json();
 

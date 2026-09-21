@@ -21,6 +21,27 @@ export async function GET() {
   }
 
   try {
+    // Keep the warehouse movement model explicit: credit-note returns are returns, not new purchases.
+    await sql`ALTER TABLE warehouse_movements DROP CONSTRAINT IF EXISTS warehouse_movements_movement_type_check`;
+    await sql`ALTER TABLE warehouse_movements ADD CONSTRAINT warehouse_movements_movement_type_check CHECK (movement_type IN ('IN','OUT','SALE','LOSS','TRANSFER','RETURN'))`;
+    await sql`
+      UPDATE warehouse_movements wm
+      SET movement_type='RETURN',
+          destination_address_id=COALESCE(wm.destination_address_id, cd.address_book_id)
+      FROM commercial_documents cd
+      WHERE cd.warehouse_movement_id=wm.id
+        AND cd.credit_note_for_id IS NOT NULL
+        AND wm.movement_type='IN'
+    `;
+    await sql`
+      UPDATE warehouse_movements wm
+      SET unit_cost=COALESCE((
+        SELECT pb.unit_cost FROM product_batches pb
+        WHERE pb.product_id=wm.product_id
+        ORDER BY pb.received_date DESC,pb.id DESC LIMIT 1
+      ),0)
+      WHERE wm.movement_type='RETURN' AND COALESCE(wm.unit_cost,0)=0
+    `;
     /*
       Moving weighted average:
       - IN adds quantity at the actual purchase/unit cost.
@@ -58,7 +79,7 @@ export async function GET() {
       const qty = Number(row.quantity || 0);
       if (!qty || qty <= 0) continue;
 
-      if (row.movement_type === "IN") {
+      if (["IN", "RETURN"].includes(String(row.movement_type))) {
         const destination = Number(row.destination_location_id);
         if (!destination) continue;
 

@@ -13,7 +13,7 @@ export async function GET(r:Request){
     SELECT
       wm.id,wm.movement_date::text,wm.movement_type,p.name product_name,pb.batch_number,
       wm.quantity::text,cc.code cost_center_code,
-      sa.name source_location,da.name destination_location,dest.name destination_name,
+      CASE WHEN wm.movement_type='RETURN' THEN dest.name ELSE sa.name END source_location,da.name destination_location,dest.name destination_name,
       COALESCE(batch_supplier.name,doc_supplier.name) supplier_name,
       wm.note,wm.created_by_name user_name
     FROM warehouse_movements wm

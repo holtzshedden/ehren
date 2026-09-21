@@ -7,6 +7,7 @@ import WarehouseSection from "./WarehouseSection";
 import ProductsSection from "./ProductsSection";
 import FinanceSection from "./FinanceSection";
 import CostCentersSection from "./CostCentersSection";
+import DashboardSection from "./DashboardSection";
 
 type ModalType =
   | "incoming"
@@ -619,133 +620,7 @@ export default function BackendPage() {
         </header>
 
         <div className="backend-content">
-          {activeSection === "dashboard" && (
-            <>
-              <section className="dashboard-trends">
-                <TrendCard
-                  label="Bierbestand"
-                  value="1.248"
-                  detail="Flaschen · aktueller Bestand"
-                  change="+8,3 % vs. Juli"
-                  data={dashboardTrends.beer}
-                />
-
-                <TrendCard
-                  label="Warenwert"
-                  value="1.415,52 €"
-                  detail="aktueller Bestand"
-                  change="+6,8 % vs. Juli"
-                  data={dashboardTrends.stockValue}
-                />
-
-                <TrendCard
-                  label="Einnahmen"
-                  value="316,00 €"
-                  detail="August 2026"
-                  change="+17,9 % vs. Juli"
-                  data={dashboardTrends.income}
-                />
-
-                <TrendCard
-                  label="Ausgaben"
-                  value="1.356,60 €"
-                  detail="August 2026"
-                  change="+78,5 % vs. Juli"
-                  data={dashboardTrends.expenses}
-                />
-
-                <TrendCard
-                  label="Liquide Mittel"
-                  value="4.280,00 €"
-                  detail="zuletzt manuell aktualisiert"
-                  change="-1,6 % vs. Juli"
-                  data={dashboardTrends.cash}
-                />
-              </section>
-
-              <section className="backend-section">
-                <div className="backend-section-head">
-                  <div>
-                    <span className="backend-section-kicker">LAGER</span>
-                    <h2>Letzte Bewegungen</h2>
-                  </div>
-
-                  <button
-                    className="backend-text-button"
-                    onClick={() => setActiveSection("warehouse")}
-                  >
-                    Alle anzeigen
-                  </button>
-                </div>
-
-                <div className="backend-table-wrap">
-                  <table className="backend-table">
-                    <thead>
-                      <tr>
-                        <th>Datum</th>
-                        <th>Art</th>
-                        <th>Artikel</th>
-                        <th>Menge</th>
-                        <th>Ziel / Ort</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {dashboardWarehouseRows.map((row, index) => (
-                        <tr key={`${row.date}-${index}`}>
-                          <td>{row.date}</td>
-                          <td>{row.type}</td>
-                          <td>{row.item}</td>
-                          <td className="backend-number">{row.amount}</td>
-                          <td>{row.location}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-
-              <section className="backend-section">
-                <div className="backend-section-head">
-                  <div>
-                    <span className="backend-section-kicker">FINANZEN</span>
-                    <h2>Letzte Bewegungen</h2>
-                  </div>
-
-                  <button
-                    className="backend-text-button"
-                    onClick={() => setActiveSection("finance")}
-                  >
-                    Alle anzeigen
-                  </button>
-                </div>
-
-                <div className="backend-table-wrap">
-                  <table className="backend-table">
-                    <thead>
-                      <tr>
-                        <th>Datum</th>
-                        <th>Beschreibung</th>
-                        <th>Kostenstelle</th>
-                        <th>Betrag</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {dashboardFinanceRows.map((row, index) => (
-                        <tr key={`${row.date}-${index}`}>
-                          <td>{row.date}</td>
-                          <td>{row.description}</td>
-                          <td>{row.costCenter}</td>
-                          <td className="backend-number">{row.amount}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            </>
-          )}
+          {activeSection === "dashboard" && <DashboardSection go={changeSection} />}
 
           {activeSection === "warehouse" && <WarehouseSection />}
 

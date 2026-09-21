@@ -9,6 +9,9 @@ export async function POST(r:Request,{params}:{params:Promise<{id:string}>}){
     const c=await clerkClient(),u=await c.users.getUser(userId);
     if(u.publicMetadata?.ehrenmann!==true)return NextResponse.json({error:"Nicht autorisiert"},{status:403});
 
+    await sql`ALTER TABLE financial_transactions DROP CONSTRAINT IF EXISTS financial_transactions_transaction_type_check`;
+    await sql`ALTER TABLE financial_transactions ADD CONSTRAINT financial_transactions_transaction_type_check CHECK (transaction_type IN ('INCOME','EXPENSE','CAPITAL_IN','CAPITAL_OUT'))`;
+
     const{id}=await params,b=await r.json();
     const date=String(b.date||"").trim();
     if(!date)return NextResponse.json({error:"Zahlungsdatum fehlt."},{status:400});
