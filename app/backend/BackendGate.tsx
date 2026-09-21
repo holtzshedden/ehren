@@ -39,7 +39,7 @@ export default function BackendGate({
         <div className="backend-auth-brand">
           <span>EHREN</span>
           <span>FELD</span>
-          <small>BACKEND</small>
+          <small>ERP</small>
         </div>
 
         <SignIn

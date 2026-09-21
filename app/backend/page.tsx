@@ -302,7 +302,7 @@ const financeRows = [
     description: "5.000 Sticker",
     contact: "Flyeralarm",
     costCenter: "2026-002-BRAND",
-    source: "Finanzen",
+    source: "Buchungen",
     amount: "- 182,40 €",
     user: "Alex",
   },
@@ -322,7 +322,7 @@ const financeRows = [
     description: "Transport Produktionsware",
     contact: "Brauerei Rheinland",
     costCenter: "2026-005-LOGISTIK",
-    source: "Finanzen",
+    source: "Buchungen",
     amount: "- 84,20 €",
     user: "Alex",
   },
@@ -332,7 +332,7 @@ const financeRows = [
     description: "Logoentwicklung",
     contact: "Max Mustermann",
     costCenter: "2026-002-BRAND",
-    source: "Finanzen",
+    source: "Buchungen",
     amount: "- 350,00 €",
     user: "Alex",
   },
@@ -463,7 +463,7 @@ export default function BackendPage() {
   const sectionTitles: Record<string, string> = {
     dashboard: "Dashboard",
     warehouse: "Lager",
-    finance: "Finanzen",
+    finance: "Buchungen",
     ebitda: "EBITDA",
     costcenters: "Kostenstellen",
     products: "Produkte",
@@ -491,7 +491,7 @@ export default function BackendPage() {
         <div className="backend-brand">
           <span>EHREN</span>
           <span>FELD</span>
-          <small>BACKEND</small>
+          <small>ERP</small>
         </div>
 
         <nav className="backend-nav" aria-label="Backend Navigation">
@@ -513,7 +513,7 @@ export default function BackendPage() {
             className={activeSection === "finance" ? "active" : ""}
             onClick={() => changeSection("finance")}
           >
-            Finanzen
+            Buchungen
           </button>
 
           <button
@@ -676,7 +676,7 @@ export default function BackendPage() {
                 <span className="backend-section-kicker">
                   {["incoming", "outgoing", "transfer"].includes(modal)
                     ? "LAGERBEWEGUNG"
-                    : "FINANZEN"}
+                    : "BUCHUNGEN"}
                 </span>
 
                 <h2>

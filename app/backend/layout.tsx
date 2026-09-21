@@ -3,8 +3,8 @@ import BackendGate from "./BackendGate";
 import "./backend.css";
 
 export const metadata: Metadata = {
-  title: "EHRENFELD Backend",
-  description: "Internes EHRENFELD Backend",
+  title: "EHRENFELD ERP",
+  description: "Internes EHRENFELD ERP",
 };
 
 export default function BackendLayout({
