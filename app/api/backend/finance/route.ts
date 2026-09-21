@@ -30,6 +30,8 @@ export async function GET() {
     );
   }
 
+  await sql`ALTER TABLE commercial_documents ADD COLUMN IF NOT EXISTS credit_note_for_id bigint`;
+
   const transactions = await sql`
     SELECT
       ft.id,
@@ -93,6 +95,7 @@ export async function GET() {
       d.gross_amount::text,
       d.note,
       d.attachment_name,
+      d.credit_note_for_id,
       COALESCE(d.recipient_name, ab.name) contact_name,
       cc.code cost_center_code
     FROM commercial_documents d
@@ -207,8 +210,7 @@ export async function POST(r: Request) {
       !["INCOME", "EXPENSE", "CAPITAL_IN", "CAPITAL_OUT"].includes(type) ||
       !Number.isFinite(amount) ||
       amount < 0 ||
-      !b.date ||
-      !String(b.description || "").trim()
+      !b.date
     ) {
       return NextResponse.json(
         { error: "Buchung prüfen." },
@@ -235,7 +237,7 @@ export async function POST(r: Request) {
       VALUES (
         ${b.date},
         ${type},
-        ${b.description},
+        ${String(b.description || (type === "CAPITAL_IN" ? "Gründereinlage" : type === "CAPITAL_OUT" ? "Gründerentnahme" : type === "INCOME" ? "Sonstige Einnahme" : "Ausgabe außerhalb Lager"))},
         ${amount},
         ${b.cost_center_id || null},
         ${b.address_book_id || null},
@@ -244,7 +246,7 @@ export async function POST(r: Request) {
         ${u.userId},
         ${u.name},
         ${b.reserve_id || null},
-        ${b.payment_method || null},
+        ${null},
         ${b.capital_person_name || null}
       )
     `;

@@ -3,6 +3,8 @@ import {auth,clerkClient} from "@clerk/nextjs/server";
 import {sql} from "../../../../../../lib/db";
 
 export async function GET(r:Request){
+  await sql`ALTER TABLE warehouse_movements ADD COLUMN IF NOT EXISTS shipping_net numeric(14,2) NOT NULL DEFAULT 0`;
+  await sql`ALTER TABLE warehouse_movements ADD COLUMN IF NOT EXISTS shipping_tax_rate numeric(6,2) NOT NULL DEFAULT 19`;
   const {userId}=await auth();
   if(!userId)return NextResponse.json({error:"Nicht autorisiert"},{status:401});
   const c=await clerkClient(),u=await c.users.getUser(userId);
@@ -19,7 +21,9 @@ export async function GET(r:Request){
       p.unit,
       wm.quantity::float8 AS quantity,
       wm.unit_cost::float8 AS unit_cost,
-      (wm.quantity * wm.unit_cost)::float8 AS net_total,
+      (wm.quantity * wm.unit_cost + COALESCE(wm.shipping_net,0))::float8 AS net_total,
+      COALESCE(wm.shipping_net,0)::float8 AS shipping_net,
+      COALESCE(wm.shipping_tax_rate,19)::float8 AS shipping_tax_rate,
       wm.cost_center_id,
       cc.code AS cost_center_code,
       pb.supplier_address_id AS supplier_id,

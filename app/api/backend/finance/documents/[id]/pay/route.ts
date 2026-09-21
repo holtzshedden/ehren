@@ -30,7 +30,7 @@ export async function POST(r:Request,{params}:{params:Promise<{id:string}>}){
       VALUES(
         ${date},${d.direction==="OUTGOING"?"INCOME":"EXPENSE"},${description},${d.gross_amount},
         ${d.cost_center_id},${d.address_book_id},'DOCUMENT',${d.note},
-        ${userId},${name},${b.payment_method||"Bankkonto"}
+        ${userId},${name},${null}
       )
     `;
     return NextResponse.json({ok:true});

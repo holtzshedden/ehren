@@ -7,6 +7,7 @@ async function ok(){const {userId}=await auth();if(!userId)return false;const c=
 export async function GET(r:Request,{params}:{params:Promise<{id:string}>}){
   if(!await ok())return NextResponse.json({error:"Nicht autorisiert"},{status:403});
   const{id}=await params;
+  await sql`ALTER TABLE commercial_documents ADD COLUMN IF NOT EXISTS credit_note_for_id bigint`;
   const download=new URL(r.url).searchParams.get("download")==="1";
 
   if(download){
@@ -26,7 +27,7 @@ export async function GET(r:Request,{params}:{params:Promise<{id:string}>}){
       recipient_name,recipient_street,recipient_postal_code,recipient_city,recipient_country,
       issuer_name,issuer_street,issuer_postal_code,issuer_city,issuer_country,
       issuer_tax_number,issuer_vat_id,issuer_iban,issuer_bic,issuer_bank_name,payment_terms_days,
-      attachment_name
+      attachment_name,credit_note_for_id
     FROM commercial_documents WHERE id=${+id}
   `;
   if(!document)return NextResponse.json({error:"Beleg nicht gefunden."},{status:404});

@@ -4,6 +4,8 @@ import {sql} from "../../../../../lib/db";
 
 export async function POST(r:Request){
   try{
+    await sql`ALTER TABLE warehouse_movements ADD COLUMN IF NOT EXISTS shipping_net numeric(14,2) NOT NULL DEFAULT 0`;
+    await sql`ALTER TABLE warehouse_movements ADD COLUMN IF NOT EXISTS shipping_tax_rate numeric(6,2) NOT NULL DEFAULT 19`;
     const {userId}=await auth();
     if(!userId)return NextResponse.json({error:"Nicht autorisiert"},{status:401});
     const c=await clerkClient(),u=await c.users.getUser(userId);
@@ -13,6 +15,7 @@ export async function POST(r:Request){
     const pid=Number(b.product_id),q=Number(b.quantity),cost=Number(b.unit_cost),wh=Number(b.warehouse_id);
     const supplier=b.supplier_id?Number(b.supplier_id):null;
     const cc=b.cost_center_id?Number(b.cost_center_id):null;
+    const shippingNet=Number(b.shipping_net||0),shippingTaxRate=Number(b.shipping_tax_rate??19);
     const date=String(b.date||"").trim(),note=String(b.note||"").trim()||null,batch=String(b.batch_number||"").trim()||null;
 
     if(!pid||!q||q<=0||!Number.isFinite(cost)||cost<0||!wh||!supplier||!date)
@@ -37,9 +40,9 @@ export async function POST(r:Request){
     const[m]=await sql`
       INSERT INTO warehouse_movements(
         movement_date,movement_type,product_id,batch_id,quantity,unit_cost,
-        destination_location_id,cost_center_id,note,created_by_clerk_user_id,created_by_name
+        destination_location_id,cost_center_id,note,created_by_clerk_user_id,created_by_name,shipping_net,shipping_tax_rate
       )
-      VALUES(${date},'IN',${pid},${batchId},${q},${cost},${wh},${cc},${note},${userId},${name})
+      VALUES(${date},'IN',${pid},${batchId},${q},${cost},${wh},${cc},${note},${userId},${name},${shippingNet},${shippingTaxRate})
       RETURNING id
     `;
     return NextResponse.json({ok:true,movementId:m.id});
