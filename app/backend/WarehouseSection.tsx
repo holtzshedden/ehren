@@ -57,7 +57,7 @@ return <><section className="warehouse-kpis">{[["Bestand",f(stats.stockUnits,0),
     {rows.length?rows.map(r=>
       <tr key={r.id}>
         <td>{new Date(r.movement_date+"T00:00:00").toLocaleDateString("de-DE")}</td>
-        <td>{ln(r.movement_type)}</td>
+        <td><span className="warehouse-movement-type" title={ln(r.movement_type)}>{ln(r.movement_type)}</span></td>
         <td>{r.product_name}</td>
         <td>{["IN","RETURN"].includes(r.movement_type)?"+ ":"- "}{f(+r.quantity,0)}</td>
         <td>{r.cost_center_code||"–"}</td>

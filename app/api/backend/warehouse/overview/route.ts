@@ -226,9 +226,9 @@ export async function GET() {
     `;
 
     const outgoing = await sql`
-      SELECT COALESCE(SUM(quantity),0)::float8 AS quantity
+      SELECT GREATEST(COALESCE(SUM(CASE WHEN movement_type IN ('OUT','SALE','LOSS') THEN quantity WHEN movement_type='RETURN' THEN -quantity ELSE 0 END),0),0)::float8 AS quantity
       FROM warehouse_movements
-      WHERE movement_type IN ('OUT','SALE','LOSS')
+      WHERE movement_type IN ('OUT','SALE','LOSS','RETURN')
         AND EXTRACT(YEAR FROM movement_date)=${currentYear}
     `;
 
