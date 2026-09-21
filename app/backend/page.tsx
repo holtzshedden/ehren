@@ -8,6 +8,7 @@ import ProductsSection from "./ProductsSection";
 import FinanceSection from "./FinanceSection";
 import CostCentersSection from "./CostCentersSection";
 import DashboardSection from "./DashboardSection";
+import EbitdaSection from "./EbitdaSection";
 
 type ModalType =
   | "incoming"
@@ -463,6 +464,7 @@ export default function BackendPage() {
     dashboard: "Dashboard",
     warehouse: "Lager",
     finance: "Finanzen",
+    ebitda: "EBITDA",
     costcenters: "Kostenstellen",
     products: "Produkte",
     addressbook: "Adressbuch",
@@ -512,6 +514,13 @@ export default function BackendPage() {
             onClick={() => changeSection("finance")}
           >
             Finanzen
+          </button>
+
+          <button
+            className={activeSection === "ebitda" ? "active" : ""}
+            onClick={() => changeSection("ebitda")}
+          >
+            EBITDA
           </button>
 
           <button
@@ -630,11 +639,13 @@ export default function BackendPage() {
 
           {activeSection === "costcenters" && <CostCentersSection />}
 
+          {activeSection === "ebitda" && <EbitdaSection />}
+
           {activeSection === "addressbook" && (
             <AddressBookSection onDirtyChange={setAddressBookDirty} />
           )}
 
-          {!["dashboard", "warehouse", "products", "finance", "costcenters", "addressbook"].includes(activeSection) && (
+          {!["dashboard", "warehouse", "products", "finance", "ebitda", "costcenters", "addressbook"].includes(activeSection) && (
             <section className="backend-placeholder">
               <span className="backend-section-kicker">
                 {activeSection.toUpperCase()}
