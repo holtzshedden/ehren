@@ -9,6 +9,7 @@ import FinanceSection from "./FinanceSection";
 import CostCentersSection from "./CostCentersSection";
 import DashboardSection from "./DashboardSection";
 import EbitdaSection from "./EbitdaSection";
+import ClosingSection from "./ClosingSection";
 
 type ModalType =
   | "incoming"
@@ -465,6 +466,7 @@ export default function BackendPage() {
     warehouse: "Lager",
     finance: "Buchungen",
     ebitda: "EBITDA",
+    closing: "Abschluss",
     costcenters: "Kostenstellen",
     products: "Produkte",
     addressbook: "Adressbuch",
@@ -495,63 +497,28 @@ export default function BackendPage() {
         </div>
 
         <nav className="backend-nav" aria-label="Backend Navigation">
-          <button
-            className={activeSection === "dashboard" ? "active" : ""}
-            onClick={() => changeSection("dashboard")}
-          >
-            Dashboard
-          </button>
+          <div className="backend-nav-group">
+            <button className={activeSection === "dashboard" ? "active" : ""} onClick={() => changeSection("dashboard")}>Dashboard</button>
+          </div>
 
-          <button
-            className={activeSection === "warehouse" ? "active" : ""}
-            onClick={() => changeSection("warehouse")}
-          >
-            Lager
-          </button>
+          <div className="backend-nav-group">
+            <button className={activeSection === "warehouse" ? "active" : ""} onClick={() => changeSection("warehouse")}>Lager</button>
+            <button className={activeSection === "finance" ? "active" : ""} onClick={() => changeSection("finance")}>Buchungen</button>
+          </div>
 
-          <button
-            className={activeSection === "finance" ? "active" : ""}
-            onClick={() => changeSection("finance")}
-          >
-            Buchungen
-          </button>
+          <div className="backend-nav-group">
+            <button className={activeSection === "products" ? "active" : ""} onClick={() => changeSection("products")}>Produkte</button>
+            <button className={activeSection === "addressbook" ? "active" : ""} onClick={() => changeSection("addressbook")}>Adressbuch</button>
+          </div>
 
-          <button
-            className={activeSection === "ebitda" ? "active" : ""}
-            onClick={() => changeSection("ebitda")}
-          >
-            EBITDA
-          </button>
+          <div className="backend-nav-group">
+            <button className={activeSection === "ebitda" ? "active" : ""} onClick={() => changeSection("ebitda")}>EBITDA</button>
+            <button className={activeSection === "closing" ? "active" : ""} onClick={() => changeSection("closing")}>Abschluss</button>
+          </div>
 
-          <button
-            className={activeSection === "costcenters" ? "active" : ""}
-            onClick={() => changeSection("costcenters")}
-          >
-            Kostenstellen
-          </button>
-
-          <button
-            className={activeSection === "products" ? "active" : ""}
-            onClick={() => changeSection("products")}
-          >
-            Produkte
-          </button>
-
-          <button
-            className={activeSection === "addressbook" ? "active" : ""}
-            onClick={() => changeSection("addressbook")}
-          >
-            Adressbuch
-          </button>
-
-          <a
-            className="backend-nav-external"
-            href="https://drive.google.com/drive/folders/0ALgqRHOmfK_1Uk9PVA"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dateien
-          </a>
+          <div className="backend-nav-group">
+            <a className="backend-nav-external" href="https://drive.google.com/drive/folders/0ALgqRHOmfK_1Uk9PVA" target="_blank" rel="noopener noreferrer">Dateien</a>
+          </div>
         </nav>
 
         <div className="backend-sidebar-footer">
@@ -641,11 +608,13 @@ export default function BackendPage() {
 
           {activeSection === "ebitda" && <EbitdaSection />}
 
+          {activeSection === "closing" && <ClosingSection />}
+
           {activeSection === "addressbook" && (
             <AddressBookSection onDirtyChange={setAddressBookDirty} />
           )}
 
-          {!["dashboard", "warehouse", "products", "finance", "ebitda", "costcenters", "addressbook"].includes(activeSection) && (
+          {!["dashboard", "warehouse", "products", "finance", "ebitda", "closing", "costcenters", "addressbook"].includes(activeSection) && (
             <section className="backend-placeholder">
               <span className="backend-section-kicker">
                 {activeSection.toUpperCase()}
