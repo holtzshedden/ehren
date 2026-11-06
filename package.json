@@ -13,8 +13,8 @@
     "@clerk/nextjs": "^7.9.4",
     "@cloudflare/workerd-linux-64": "^1.20260920.1",
     "@neondatabase/serverless": "^1.1.0",
-    "@opennextjs/cloudflare": "^1.20.6",
-    "next": "^15.5.0",
+    "@opennextjs/cloudflare": "^1.20.16",
+    "next": "^15.5.29",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
